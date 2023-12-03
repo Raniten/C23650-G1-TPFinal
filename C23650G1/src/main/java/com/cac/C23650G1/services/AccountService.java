@@ -2,7 +2,7 @@ package com.cac.C23650G1.services;
 
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+import com.cac.C23650G1.exception.IllegalArgumentException;
 
 @Service
 public class AccountService {
@@ -20,6 +20,10 @@ public class AccountService {
   }
 
   public String updateAlias(String id, String alias) {
+    // NOTE: Ejemplo de excepción funcionando.
+    if (alias == null || alias.isEmpty()) {
+      throw new IllegalArgumentException("El alias no puede ser nulo o vacío");
+    }
     return "updateAlias" + id + " " + alias;
   }
 
