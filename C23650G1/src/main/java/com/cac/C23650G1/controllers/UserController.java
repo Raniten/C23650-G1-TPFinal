@@ -16,18 +16,4 @@ import java.util.List;
 // todos los metodos van a ser /api/user, solo cambia al consultar userById, editar o borrar un user
 public class UserController {
 
-     // Necesito obtener una instancia del servicio de usuarios
-
-    @Autowired
-    private UserService service;
-
-
-    // Vamos a obtener una lista de usuarios registrados
-
-    @GetMapping //Para acceder a este recurso deben colocar "/users"
-    public ResponseEntity<List<String>> getusers(){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getusers());
-    }
-
-
 }
