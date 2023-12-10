@@ -17,6 +17,7 @@ import java.util.List;
 // todos los metodos van a ser /api/user, solo cambia al consultar userById, editar o borrar un user
 public class UserController {
 
+<<<<<<< HEAD
      // Necesito obtener una instancia del servicio de usuarios
 
     @Autowired
@@ -57,4 +58,6 @@ public class UserController {
     }
 
 
+=======
+>>>>>>> Fernando
 }
