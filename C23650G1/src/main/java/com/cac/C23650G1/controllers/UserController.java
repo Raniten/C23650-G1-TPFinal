@@ -1,9 +1,10 @@
 package com.cac.C23650G1.controllers;
 
+import com.cac.C23650G1.entities.User;
 import com.cac.C23650G1.entities.dtos.UserDto;
+import com.cac.C23650G1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,19 +20,19 @@ public class UserController {
      // Necesito obtener una instancia del servicio de usuarios
 
     @Autowired
-    private UserService service;
+        private UserService service;
 
 
     // Vamos a obtener una lista de usuarios registrados
 
     @GetMapping //Para acceder a este recurso deben colocar "/users", como ya esta seteado en el request Mapping no hace falta colocarle el (value ="/users")
-    public ResponseEntity<List<String>> getusers(){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getusers());
+    public ResponseEntity<List<User>> getUsers(){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getUsers());
     }
 
     // Obtener los datos de un usuario en particular por su ID
     @GetMapping (value = "/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long i){
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.getUserById(id));
     }
 
@@ -43,8 +44,8 @@ public class UserController {
 
     // En este caso esta unificado, utilizamos el mismo metodo para modificar Parcial (PATCH) o Totalmente (PUT) un usuario
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, RequestBody UserDto user){
+    @PutMapping(value ="/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto user){
         return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id, user));
     }
 
