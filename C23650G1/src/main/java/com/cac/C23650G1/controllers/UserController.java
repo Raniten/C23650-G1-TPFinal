@@ -50,7 +50,8 @@ public class UserController {
     }
 
 
-    //Metodo DELETE eliminar usuario
+    //TODO:REFACTOR
+    //este metodo deberia desactivar el usuario de alguna forma, no eliminarlo
     @DeleteMapping (value = "/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));

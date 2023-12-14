@@ -37,6 +37,8 @@ public class UserService {
         return user;
     }
 
+    //TODO:REFACTOR
+    //este metodo deberia desactivar el usuario de alguna forma, no eliminarlo
     public String deleteUser(Long id){
         if (repository.existsById(id)){
             repository.deleteById(id);
@@ -48,38 +50,38 @@ public class UserService {
 
     public UserDto updateUser(Long id, UserDto dto) {
         if (repository.existsById(id)) {
-            User usertoModify = repository.findById(id).get();
-            // Valdiar que datos no vienen en null para setearlos al objeto ya seteado
+        User usertoModify = repository.findById(id).get();
+        // Valdiar que datos no vienen en null para setearlos al objeto ya seteado
 
 
-            if (dto.getFirstname() != null) {
-                usertoModify.setFirstname(dto.getFirstname());
-            }
-            if (dto.getLastname() != null) {
-                usertoModify.setLastname(dto.getLastname());
-            }
-            if (dto.getUsername() != null) {
-                usertoModify.setUsername(dto.getUsername());
-            }
-            if (dto.getPassword() != null) {
-                usertoModify.setPassword(dto.getPassword());
-            }
-            if (dto.getDni() != null) {
-                usertoModify.setDni(dto.getDni());
-            }
-            if (dto.getEmail() != null) {
-                usertoModify.setEmail(dto.getEmail());
-            }
-            if (dto.getAddress() != null) {
-                usertoModify.setAddress(dto.getAddress());
-            }
-            if (dto.getUpdate_at() != null) {
-                usertoModify.setUpdated_at(dto.getUpdate_at());
-            }
-            User userModified = repository.save(usertoModify);
-            return UserMapper.userToDto(userModified);
-        } else return null;
-    }
+        if (dto.getFirstname() != null) {
+            usertoModify.setFirstname(dto.getFirstname());
+        }
+        if (dto.getLastname() != null) {
+            usertoModify.setLastname(dto.getLastname());
+        }
+        if (dto.getUsername() != null) {
+            usertoModify.setUsername(dto.getUsername());
+        }
+        if (dto.getPassword() != null) {
+            usertoModify.setPassword(dto.getPassword());
+        }
+        if (dto.getDni() != null) {
+            usertoModify.setDni(dto.getDni());
+        }
+        if (dto.getEmail() != null) {
+            usertoModify.setEmail(dto.getEmail());
+        }
+        if (dto.getAddress() != null) {
+            usertoModify.setAddress(dto.getAddress());
+        }
+        if (dto.getUpdate_at() != null) {
+            usertoModify.setUpdated_at(dto.getUpdate_at());
+        }
+        User userModified = repository.save(usertoModify);
+        return UserMapper.userToDto(userModified);
+    } else return null;
+}
 
     // Validar que existan usuarios unicos por mail
 
