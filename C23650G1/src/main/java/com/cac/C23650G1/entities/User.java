@@ -45,8 +45,8 @@ public class User {
     @Column(name = "fecha_modificacion")
     private LocalDateTime updated_at;
 
-   // @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Account> accounts;
+   @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<Account> accounts;
 
 
 }
