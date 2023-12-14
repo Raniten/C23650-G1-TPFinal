@@ -78,8 +78,7 @@ public class UserService {
             }
             User userModified = repository.save(usertoModify);
             return UserMapper.userToDto(userModified);
-        }
-        return null;
+        } else return null;
     }
 
     // Validar que existan usuarios unicos por mail

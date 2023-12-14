@@ -1,5 +1,7 @@
 package com.cac.C23650G1.controllers;
 
+import com.cac.C23650G1.entities.Transfer;
+import com.cac.C23650G1.entities.dtos.TransferDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
