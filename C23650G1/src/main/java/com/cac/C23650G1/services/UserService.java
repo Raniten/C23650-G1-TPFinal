@@ -2,12 +2,11 @@ package com.cac.C23650G1.services;
 
 import com.cac.C23650G1.entities.User;
 import com.cac.C23650G1.entities.dtos.UserDto;
-import com.cac.C23650G1.mapper.UserMapper;
+import com.cac.C23650G1.mappers.UserMapper;
 
-import com.cac.C23650G1.repository.UserRepository;
+import com.cac.C23650G1.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

@@ -1,6 +1,11 @@
 package com.cac.C23650G1.controllers;
 
+import com.cac.C23650G1.entities.Transfer;
+import com.cac.C23650G1.entities.dtos.TransferDto;
+import com.cac.C23650G1.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,15 +24,15 @@ public class TransferController {
 
     //OBTENER la lista de TODAS las transferencias (GET)
     @GetMapping
-    public List<Transfer> getTransfers() {
-        return transferService.getTransfers();
+    public ResponseEntity<List<Transfer>> getTransfers() {
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.getTransfers());
 
     }
 
     //OBTENER UNA SOLA trasnferencia por su ID (GET)
     @GetMapping(value="/{id}")
-    public Transfer getTransferById(@PathVariable Long id) {
-        return transferService.getTransferById(id);
+    public ResponseEntity<Transfer> getTransferById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.getTransferById(id));
     }
 
     // ELIMINAR UNA SOLA transferencia (DELETE)
@@ -37,10 +42,10 @@ public class TransferController {
         return ResponseEntity.noContent().build();
     }
 
-    //CREAR UN SOLO usario (POST)
-    @PostMapping
-    public Transfer createTransfer(@RequestBody TransferDto newTransfer) {
+    //CREAR UNA SOLA transferencia (POST)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Transfer> createTransfer(@RequestBody TransferDto newTransfer) {
 
-        return transferService.addTransfer(newTransfer);
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.createTransfer(newTransfer));
     }
 }

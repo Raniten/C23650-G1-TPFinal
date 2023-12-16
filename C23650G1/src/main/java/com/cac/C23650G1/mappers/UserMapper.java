@@ -1,4 +1,4 @@
-package com.cac.C23650G1.mapper;
+package com.cac.C23650G1.mappers;
 import com.cac.C23650G1.entities.User;
 import com.cac.C23650G1.entities.dtos.UserDto;
 import lombok.Getter;
