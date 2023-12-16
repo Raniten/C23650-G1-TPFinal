@@ -2,15 +2,13 @@ package com.cac.C23650G1.services;
 
 import com.cac.C23650G1.entities.Account;
 import com.cac.C23650G1.entities.dtos.AccountDto;
-import com.cac.C23650G1.entities.dtos.enums.AccountType;
 import com.cac.C23650G1.mappers.AccountMapper;
-import com.cac.C23650G1.repository.AccountRepository;
-import com.cac.C23650G1.repository.UserRepository;
+import com.cac.C23650G1.repositories.AccountRepository;
+import com.cac.C23650G1.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cac.C23650G1.exception.IllegalArgumentException;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;

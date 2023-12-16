@@ -1,4 +1,4 @@
-package com.cac.C23650G1.repository;
+package com.cac.C23650G1.repositories;
 
 import com.cac.C23650G1.entities.Transfer;
 import org.springframework.data.jpa.repository.JpaRepository;

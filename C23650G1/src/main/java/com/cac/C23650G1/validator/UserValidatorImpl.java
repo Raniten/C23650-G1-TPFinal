@@ -2,7 +2,7 @@ package com.cac.C23650G1.validator;
 
 import com.cac.C23650G1.entities.dtos.UserDto;
 import com.cac.C23650G1.exception.ApiUnprocessableEntity;
-import com.cac.C23650G1.repository.UserRepository;
+import com.cac.C23650G1.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

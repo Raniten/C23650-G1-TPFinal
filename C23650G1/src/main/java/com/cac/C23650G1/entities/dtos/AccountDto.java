@@ -1,8 +1,6 @@
 package com.cac.C23650G1.entities.dtos;
 
-import com.cac.C23650G1.entities.User;
-import com.cac.C23650G1.entities.dtos.enums.AccountType;
-import jakarta.persistence.*;
+import com.cac.C23650G1.entities.enums.AccountType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

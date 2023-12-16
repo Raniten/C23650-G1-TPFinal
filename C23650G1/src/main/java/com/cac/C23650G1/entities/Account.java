@@ -1,7 +1,7 @@
 package com.cac.C23650G1.entities;
 
 
-import com.cac.C23650G1.entities.dtos.enums.AccountType;
+import com.cac.C23650G1.entities.enums.AccountType;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -33,7 +34,7 @@ public class Transfer {
     private LocalDate date;
 
     @Column(name = "amount")
-    private float amount;
+    private BigDecimal amount;
 
 
 }
