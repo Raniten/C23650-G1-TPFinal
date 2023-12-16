@@ -11,7 +11,11 @@ import java.util.List;
 public class TransferService {
 
     @Autowired
-    private TransferRepository transferRepository;
+    private final TransferRepository transferRepository;
+
+    public TransferService(TransferRepository transferRepository) {
+        this.transferRepository = transferRepository;
+    }
 
     public List<Transfer> getTransfers(){
         List <Transfer> transfers = transferRepository.findAll();
