@@ -1,4 +1,5 @@
 package com.cac.C23650G1.entities.dtos;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,8 @@ public class UserDto {
     private LocalDateTime created_at;
     private LocalDateTime update_at;
 
+    public boolean areAllFieldsNull() {
+        return username == null && password == null && firstname == null && lastname == null
+                && email == null && dni == null && address == null && birthday_date == null;
+    }
 }
