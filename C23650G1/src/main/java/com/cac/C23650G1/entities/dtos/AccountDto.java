@@ -17,15 +17,13 @@ import java.time.LocalDateTime;
 public class AccountDto {
 
     private Long id;
-
     private AccountType type;
-
     private boolean active;
-
+    private String accountNumber;
     private String cbu;
-
     private String alias;
-
     private BigDecimal amount;
+    private LocalDateTime created_account;
+    private LocalDateTime updated_account;
 
 }

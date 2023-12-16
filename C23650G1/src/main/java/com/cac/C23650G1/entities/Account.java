@@ -31,9 +31,9 @@ public class Account {
 
     // private String moneda; // pesos o dolares  >> lo podemos saber  con el tipo de cuenta
 
+    private String accountNumber;
     private String cbu;  // numero al cual se hacen las transferencias
-
-    private String Alias; // 3 palabras que identifican la cuenta
+    private String alias; // 3 palabras que identifican la cuenta
 
     @Column(name = "monto")
     private BigDecimal amount; // dinero en la cuenta

@@ -18,8 +18,22 @@ import java.time.LocalDate;
 public class Transfer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idTransfer;
 
-    private float amount;
+    //@Column(name = "account_number")
+    //private String accountNumber;
+
+    @Column(name = "id_account_sender")
+    private Long idAccountSender;
+
+    @Column(name = "id_account_recipient")
+    private Long idAccountRecipient;
+
+    @Column(name = "date")
     private LocalDate date;
+
+    @Column(name = "amount")
+    private float amount;
+
+
 }
