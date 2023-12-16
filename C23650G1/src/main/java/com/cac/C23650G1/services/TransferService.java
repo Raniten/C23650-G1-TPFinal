@@ -1,7 +1,7 @@
 package com.cac.C23650G1.services;
 
 import com.cac.C23650G1.entities.Transfer;
-import com.cac.C23650G1.repository.TransferRepository;
+import com.cac.C23650G1.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
