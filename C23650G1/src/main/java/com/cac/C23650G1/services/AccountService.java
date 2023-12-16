@@ -1,24 +1,23 @@
 package com.cac.C23650G1.services;
 
-<<<<<<< HEAD
+
+import com.cac.C23650G1.entities.Account;
+import com.cac.C23650G1.entities.dtos.AccountDto;
+import com.cac.C23650G1.entities.dtos.enums.AccountType;
+import com.cac.C23650G1.mappers.AccountMapper;
+import com.cac.C23650G1.repositories.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cac.C23650G1.exception.IllegalArgumentException;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AccountService {
 
-  public String getUsers() {
-    return "getUsers";
-  }
-
-  public String getUser(String id) {
-    return "getUser" + id;
-  }
-
-  public String createUser() {
-    return "createUser";
-  }
 
   public String updateAlias(String id, String alias) {
     // NOTE: Ejemplo de excepción funcionando.
@@ -31,20 +30,6 @@ public class AccountService {
   public String disableUser() {
     return "disableUser";
   }
-=======
-import com.cac.C23650G1.entities.Account;
-import com.cac.C23650G1.entities.dtos.AccountDto;
-import com.cac.C23650G1.entities.dtos.enums.AccountType;
-import com.cac.C23650G1.mappers.AccountMapper;
-import com.cac.C23650G1.repositories.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
-@Service
-public class AccountService {
 
     @Autowired
     private final AccountRepository repository;
@@ -139,6 +124,5 @@ public class AccountService {
         }
     }
 
->>>>>>> Fernando
 
 }

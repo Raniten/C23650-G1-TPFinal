@@ -1,5 +1,7 @@
 package com.cac.C23650G1.controllers;
 
+import com.cac.C23650G1.entities.Transfer;
+import com.cac.C23650G1.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,7 @@ public class TransferController {
 
     //CREAR UN SOLO usario (POST)
     @PostMapping
-    public Transfer createTransfer(@RequestBody TransferDto newTransfer) {
+    public Transfer createTransfer(@RequestBody Transfer newTransfer) {
 
         return transferService.addTransfer(newTransfer);
     }
