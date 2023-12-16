@@ -2,6 +2,8 @@ package com.cac.C23650G1.entities;
 
 
 import com.cac.C23650G1.entities.dtos.enums.AccountType;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,11 +19,12 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor // creamos el constructos sobrecargado
 @NoArgsConstructor  // creamos el constructor vacio
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idAccount")
 public class Account {
 
     @Id //numero unico de identificacion (clave primaria)
     @GeneratedValue(strategy = GenerationType.IDENTITY) // con IDENTITY la base de datos gestione la generación de valores para la clave primaria
-    private long id; // numero de identificacion unico
+    private long idAccount; // numero de identificacion unico
 
     @Column(name = "activa")
     private boolean isActive; // booleano para indicar si la cuenta esta activa
@@ -43,5 +46,9 @@ public class Account {
 
     @Column(name = "fecha_modificacion")
     private LocalDateTime updated_account;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

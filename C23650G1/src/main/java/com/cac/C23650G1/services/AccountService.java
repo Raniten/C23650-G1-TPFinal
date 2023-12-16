@@ -5,10 +5,13 @@ import com.cac.C23650G1.entities.dtos.AccountDto;
 import com.cac.C23650G1.entities.dtos.enums.AccountType;
 import com.cac.C23650G1.mappers.AccountMapper;
 import com.cac.C23650G1.repository.AccountRepository;
+import com.cac.C23650G1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cac.C23650G1.exception.IllegalArgumentException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -19,8 +22,12 @@ public class AccountService {
     @Autowired
     private final AccountRepository accountRepository;
 
-    private AccountService(AccountRepository accountRepository) {
+    @Autowired
+    private final UserRepository userRepository;
+
+    private AccountService(AccountRepository accountRepository, UserRepository userRepository) {
         this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
     }
 
     public AccountDto getAccountById(Long id) {
@@ -35,28 +42,33 @@ public class AccountService {
     }
 
     public AccountDto createAccount(AccountDto newAccountDto) {
-        AccountDto accountDto = new AccountDto();
-        accountDto.setAmount(newAccountDto.getAmount());
-        accountDto.setType(newAccountDto.getType());
+        if(userRepository.existsById(newAccountDto.getIdUser())) {
+            newAccountDto.setAlias(generateRandomAlias());
+            while (accountRepository.existsByAlias(newAccountDto.getAlias())) {
+                newAccountDto.setAlias(generateRandomAlias());
+            }
 
-        //Generamos un alias, si existe en la base de datos, seguimos generando hasta que sea único
-        accountDto.setAlias(generateRandomAlias());
-        while( accountRepository.existsByAlias(accountDto.getAlias())) {
-            accountDto.setAlias(generateRandomAlias());
+            //Generamos un número de cuenta, si existe en la base de datos, seguimos generando hasta que sea único
+            newAccountDto.setAccountNumber(generateRandomDigits(10));
+
+            while (accountRepository.existsByAccountNumber(newAccountDto.getAccountNumber())) {
+                newAccountDto.setAccountNumber(generateRandomDigits(10));
+            }
+
+            //Generamos un CBU aleatorio incluyendo el numero de cuenta generado
+            newAccountDto.setCbu("23650" + generateRandomDigits(15) + newAccountDto.getAccountNumber() + generateRandomDigits(1));
+
+            newAccountDto.setIdAccount(0L);
+            newAccountDto.setCreated_account(LocalDateTime.now());
+            newAccountDto.setUpdated_account(LocalDateTime.now());
+
+            Account newAccount = AccountMapper.dtoToAccount(newAccountDto);
+            newAccount.setUser(userRepository.findById(newAccountDto.getIdUser()).get());
+            accountRepository.save(newAccount);
+            return AccountMapper.accountToDto(accountRepository.save(newAccount));
+        } else {
+            return new AccountDto();
         }
-
-        //Generamos un número de cuenta, si existe en la base de datos, seguimos generando hasta que sea único
-        accountDto.setAccountNumber(generateRandomDigits(10));
-
-        while( accountRepository.existsByAccountNumber(accountDto.getAccountNumber())) {
-            accountDto.setAccountNumber(generateRandomDigits(10));
-        }
-
-        //Generamos un CBU aleatorio incluyendo el numero de cuenta generado
-        accountDto.setCbu("23650" + generateRandomDigits(15) + accountDto.getAccountNumber() + generateRandomDigits(1));
-
-        Account newAccount = AccountMapper.dtoToAccount(accountDto);
-        return AccountMapper.accountToDto(accountRepository.save(newAccount));
     }
 
 

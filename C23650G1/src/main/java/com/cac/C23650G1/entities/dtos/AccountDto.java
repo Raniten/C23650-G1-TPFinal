@@ -1,5 +1,6 @@
 package com.cac.C23650G1.entities.dtos;
 
+import com.cac.C23650G1.entities.User;
 import com.cac.C23650G1.entities.dtos.enums.AccountType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AccountDto {
 
-    private Long id;
+    private Long idAccount;
     private AccountType type;
     private boolean active;
     private String accountNumber;
@@ -25,5 +26,6 @@ public class AccountDto {
     private BigDecimal amount;
     private LocalDateTime created_account;
     private LocalDateTime updated_account;
+    private Long idUser;
 
 }

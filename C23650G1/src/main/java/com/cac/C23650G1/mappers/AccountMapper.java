@@ -10,7 +10,7 @@ public class AccountMapper {
     public AccountDto accountToDto(Account account){
         AccountDto dto = new AccountDto();
 
-        dto.setId(account.getId());
+        dto.setIdAccount(account.getIdAccount());
         dto.setActive(account.isActive());
         dto.setType(account.getType());
         dto.setAccountNumber(account.getAccountNumber());
@@ -19,6 +19,7 @@ public class AccountMapper {
         dto.setAmount(account.getAmount());
         dto.setCreated_account(account.getCreated_account());
         dto.setUpdated_account(account.getUpdated_account());
+        dto.setIdUser(account.getUser().getId());
 
         return dto;
     }
@@ -26,7 +27,7 @@ public class AccountMapper {
     public Account dtoToAccount(AccountDto dto){
         Account account = new Account();
 
-        account.setId(dto.getId());
+        account.setIdAccount(dto.getIdAccount());
         account.setActive(dto.isActive());
         account.setType(dto.getType());
         account.setAccountNumber(dto.getAccountNumber());
@@ -35,6 +36,7 @@ public class AccountMapper {
         account.setAmount(dto.getAmount());
         account.setCreated_account(dto.getCreated_account());
         account.setUpdated_account(dto.getUpdated_account());
+        //account.setUser(dto.getUserId());
 
         return account;
     }
