@@ -5,40 +5,50 @@ import com.cac.C23650G1.entities.dtos.UserDto;
 import com.cac.C23650G1.mappers.UserMapper;
 
 import com.cac.C23650G1.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     public UserService (UserRepository repository){
 
-        this.repository = repository;
+        this.userRepository = repository;
     }
     public List<User> getUsers(){
-        List <User> users = repository.findAll();
+        List <User> users = userRepository.findAll();
         return users;
     }
-    public UserDto getUserById(Long id){
-        User user = repository.findById(id).get();
-        user.setPassword("*******");
-        return UserMapper.userToDto(user);
+    public ResponseEntity<?> getUserById(Long id){
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setPassword("*******");
+            return ResponseEntity.ok(UserMapper.userToDto(user));
+        } else {
+            UserDto userNotFoundDto = new UserDto(id, "Usuario no encontrado", null, null, null, null, null, null, null, null, null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFoundDto);
+        }
     }
 
     public UserDto createUser (UserDto user) {
         User entity = UserMapper.dtoToUser(user);
-        User entitySaved = repository.save(entity);
+        User entitySaved = userRepository.save(entity);
         user = UserMapper.userToDto(entitySaved);
         user.setPassword("*******");
         return user;
     }
 
     public String deleteUser(Long id){
-        if (repository.existsById(id)){
-            repository.deleteById(id);
+        if (userRepository.existsById(id)){
+            userRepository.deleteById(id);
             return "El Usuario " + id + " ha sido eliminado";
         }
 
@@ -46,8 +56,8 @@ public class UserService {
     }
 
     public UserDto updateUser(Long id, UserDto dto) {
-        if (repository.existsById(id)) {
-            User usertoModify = repository.findById(id).get();
+        if (userRepository.existsById(id)) {
+            User usertoModify = userRepository.findById(id).get();
             // Valdiar que datos no vienen en null para setearlos al objeto ya seteado
 
 
@@ -75,7 +85,7 @@ public class UserService {
             if (dto.getUpdate_at() != null) {
                 usertoModify.setUpdated_at(dto.getUpdate_at());
             }
-            User userModified = repository.save(usertoModify);
+            User userModified = userRepository.save(usertoModify);
             return UserMapper.userToDto(userModified);
         }
         return null;

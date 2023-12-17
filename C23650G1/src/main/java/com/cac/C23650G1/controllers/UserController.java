@@ -30,13 +30,13 @@ public class UserController {
 
     // Obtener los datos de un usuario en particular por su ID
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getUserById(id));
     }
 
     // Crear/Dar de alta un Usuario
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
+    public ResponseEntity<?> createUser(@RequestBody UserDto user) {
         return ResponseEntity.status(HttpStatus.OK).body(service.createUser(user));
     }
 

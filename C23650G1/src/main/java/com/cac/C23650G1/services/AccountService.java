@@ -6,10 +6,13 @@ import com.cac.C23650G1.mappers.AccountMapper;
 import com.cac.C23650G1.repositories.AccountRepository;
 import com.cac.C23650G1.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.cac.C23650G1.exception.IllegalArgumentException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -28,19 +31,23 @@ public class AccountService {
         this.userRepository = userRepository;
     }
 
-    public AccountDto getAccountById(Long id) {
-        Account acc = accountRepository.findById(id).get();
-        return AccountMapper.accountToDto(acc);
-    }
-
+    //Obtener una lista de todas las cuentas
     public List<AccountDto> getAccounts() {
         return accountRepository.findAll().stream()
                 .map(AccountMapper::accountToDto)
                 .collect(Collectors.toList());
     }
 
+    //Obtener una sola cuenta por su ID
+    public ResponseEntity<?> getAccountById(Long id) {
+        return accountRepository.findById(id)
+                .map(account -> ResponseEntity.ok(account))  // Usuario encontrado
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Account(id, false, null, "Cuenta inexistente", null, null, null, null, null, null)));
+    }
+
+    //Crear una sola cuenta nueva
     public AccountDto createAccount(AccountDto newAccountDto) {
-        if(userRepository.existsById(newAccountDto.getIdUser())) {
+        if (userRepository.existsById(newAccountDto.getIdUser())) {
             newAccountDto.setAlias(generateRandomAlias());
             while (accountRepository.existsByAlias(newAccountDto.getAlias())) {
                 newAccountDto.setAlias(generateRandomAlias());

@@ -4,12 +4,16 @@ import com.cac.C23650G1.entities.Account;
 import com.cac.C23650G1.entities.Transfer;
 import com.cac.C23650G1.entities.dtos.TransferDto;
 import com.cac.C23650G1.entities.enums.AccountType;
+import com.cac.C23650G1.mappers.UserMapper;
 import com.cac.C23650G1.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,9 +37,10 @@ public class TransferService {
     }
 
     //Obtener una sola transferencia por su ID
-    public Transfer getTransferById(Long id){
-        Transfer transfer = transferRepository.findById(id).get();
-        return (transfer);
+    public ResponseEntity<?> getTransferById(Long id){
+        return transferRepository.findById(id)
+                .map(transfer -> ResponseEntity.ok(transfer))  // Usuario encontrado
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Transfer(id,null, null, null, null )));
     }
 
     //Eliminar una sola transferencia por su ID
@@ -49,8 +54,9 @@ public class TransferService {
     }
 
     //Crear una sola transferencia
-    public Transfer createTransfer (TransferDto newTransfer) {
+    public ResponseEntity<?> createTransfer (TransferDto newTransfer) {
         Transfer transfer = new Transfer();
+        String mensajeError = "";
 
         if(isAccountExists(newTransfer.getIdAccountSender()) && isAccountExists(newTransfer.getIdAccountRecipient())) { //Validamos que existan las dos cuentas
             if(checkAccountCompatibility(newTransfer.getIdAccountSender(), newTransfer.getIdAccountRecipient())) { //Verificamos que los tipos de cuenta sean compatibles
@@ -70,10 +76,19 @@ public class TransferService {
                     transfer.setDate(LocalDate.now());
 
                     transfer = transferRepository.save(transfer);
+
+                    return ResponseEntity.ok(transfer);
+                } else {
+                    mensajeError = "La cuenta emisora no tiene los fondos suficientes";
                 }
+            } else {
+                mensajeError = "El tipo de cuenta emisora y el tipo de cuenta receptora no son compatibles";
             }
         }
-        return transfer;
+        else {
+            mensajeError = "Una de las cuentas (o las dos) no existen";
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensajeError);
     }
 
     public boolean isAccountExists(Long idAccount) {
