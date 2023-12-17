@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "homebanking_user")
@@ -45,8 +47,8 @@ public class User {
     @Column(name = "fecha_modificacion")
     private LocalDateTime updated_at;
 
-   @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-   private List<Account> accounts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Account> accounts = new ArrayList<>();
 
 
 }
