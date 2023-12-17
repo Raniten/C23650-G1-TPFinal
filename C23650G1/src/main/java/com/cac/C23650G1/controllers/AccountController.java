@@ -36,7 +36,7 @@ public class AccountController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) {
+    public ResponseEntity<?> getAccountById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(accountService.getAccountById(id));
     }
 

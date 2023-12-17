@@ -7,31 +7,32 @@ import com.cac.C23650G1.exception.IllegalArgumentException;
 import com.cac.C23650G1.mappers.UserMapper;
 
 import com.cac.C23650G1.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     public UserService(UserRepository repository) {
-
-        this.repository = repository;
+        this.userRepository = repository;
     }
 
     public List<User> getUsers() {
-        List<User> users = repository.findAll();
+        List<User> users = userRepository.findAll();
         return users;
     }
 
     public UserDto getUserById(Long id) {
-        Optional<User> optionalUser = repository.findById(id);
+        Optional<User> optionalUser = userRepository.findById(id);
         if (!optionalUser.isPresent()) {
-            throw new EntityNotFoundException
-            ("No existe el usuario con id " + id + " en la base de datos");
+            throw new EntityNotFoundException("No existe el usuario con id " + id + " en la base de datos");
         }
         User user = optionalUser.get();
         user.setPassword("*******");
@@ -58,27 +59,27 @@ public class UserService {
             throw new IllegalArgumentException("El campo address no puede ser nulo o vacio");
         }
 
-        if (repository.existsByUsername(user.getUsername())) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new IllegalArgumentException("El username ya existe");
         }
-        if (repository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("El email ya existe");
         }
-        if (repository.existsByDni(user.getDni())) {
+        if (userRepository.existsByDni(user.getDni())) {
             throw new IllegalArgumentException("El dni ya existe");
         }
 
         User entity = UserMapper.dtoToUser(user);
 
-        User entitySaved = repository.save(entity);
+        User entitySaved = userRepository.save(entity);
         user = UserMapper.userToDto(entitySaved);
         user.setPassword("*******");
         return user;
     }
 
     public String deleteUser(Long id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
             return "El Usuario " + id + " ha sido eliminado";
         }
 
@@ -86,8 +87,8 @@ public class UserService {
     }
 
     public UserDto updateUser(Long id, UserDto dto) {
-        if (repository.existsById(id)) {
-            User usertoModify = repository.findById(id).get();
+        if (userRepository.existsById(id)) {
+            User usertoModify = userRepository.findById(id).get();
             // Valdiar que datos no vienen en null para setearlos al objeto ya seteado
 
             if (dto.getFirstname() != null) {
@@ -114,7 +115,7 @@ public class UserService {
             if (dto.getUpdate_at() != null) {
                 usertoModify.setUpdated_at(dto.getUpdate_at());
             }
-            User userModified = repository.save(usertoModify);
+            User userModified = userRepository.save(usertoModify);
             return UserMapper.userToDto(userModified);
         }
         return null;
