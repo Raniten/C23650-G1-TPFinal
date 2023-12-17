@@ -40,7 +40,9 @@ public class AccountService {
     }
 
     public AccountDto createAccount(AccountDto newAccountDto) {
+        System.out.println("-------------------El id del usuario es: " + newAccountDto.getIdUser());
         if(userRepository.existsById(newAccountDto.getIdUser())) {
+            System.out.println("-------------------El usuario existe");
             newAccountDto.setAlias(generateRandomAlias());
             while (accountRepository.existsByAlias(newAccountDto.getAlias())) {
                 newAccountDto.setAlias(generateRandomAlias());
@@ -65,6 +67,7 @@ public class AccountService {
             accountRepository.save(newAccount);
             return AccountMapper.accountToDto(accountRepository.save(newAccount));
         } else {
+            System.out.println("-------------------El usuario no existe");
             return new AccountDto();
         }
     }

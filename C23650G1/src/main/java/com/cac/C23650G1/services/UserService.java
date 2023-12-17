@@ -2,6 +2,7 @@ package com.cac.C23650G1.services;
 
 import com.cac.C23650G1.entities.User;
 import com.cac.C23650G1.entities.dtos.UserDto;
+import com.cac.C23650G1.exception.EntityNotFoundException;
 import com.cac.C23650G1.exception.IllegalArgumentException;
 import com.cac.C23650G1.mappers.UserMapper;
 
@@ -9,6 +10,7 @@ import com.cac.C23650G1.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -26,7 +28,12 @@ public class UserService {
     }
 
     public UserDto getUserById(Long id) {
-        User user = repository.findById(id).get();
+        Optional<User> optionalUser = repository.findById(id);
+        if (!optionalUser.isPresent()) {
+            throw new EntityNotFoundException
+            ("No existe el usuario con id " + id + " en la base de datos");
+        }
+        User user = optionalUser.get();
         user.setPassword("*******");
         return UserMapper.userToDto(user);
     }
