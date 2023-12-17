@@ -5,10 +5,13 @@ import com.cac.C23650G1.entities.dtos.AccountDto;
 import com.cac.C23650G1.mappers.AccountMapper;
 import com.cac.C23650G1.repositories.AccountRepository;
 import com.cac.C23650G1.repositories.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.cac.C23650G1.exception.EntityNotFoundException;
 import com.cac.C23650G1.exception.IllegalArgumentException;
 
 import java.time.LocalDateTime;
@@ -47,35 +50,36 @@ public class AccountService {
 
     //Crear una sola cuenta nueva
     public AccountDto createAccount(AccountDto newAccountDto) {
-        if (userRepository.existsById(newAccountDto.getIdUser())) {
-            newAccountDto.setAlias(generateRandomAlias());
-            while (accountRepository.existsByAlias(newAccountDto.getAlias())) {
-                newAccountDto.setAlias(generateRandomAlias());
-            }
-
-            //Generamos un número de cuenta, si existe en la base de datos, seguimos generando hasta que sea único
-            newAccountDto.setAccountNumber(generateRandomDigits(10));
-
-            while (accountRepository.existsByAccountNumber(newAccountDto.getAccountNumber())) {
-                newAccountDto.setAccountNumber(generateRandomDigits(10));
-            }
-
-            //Generamos un CBU aleatorio incluyendo el numero de cuenta generado
-            newAccountDto.setCbu("23650" + generateRandomDigits(15) + newAccountDto.getAccountNumber() + generateRandomDigits(1));
-
-            newAccountDto.setIdAccount(0L);
-            newAccountDto.setCreated_account(LocalDateTime.now());
-            newAccountDto.setUpdated_account(LocalDateTime.now());
-
-            Account newAccount = AccountMapper.dtoToAccount(newAccountDto);
-            newAccount.setUser(userRepository.findById(newAccountDto.getIdUser()).get());
-            accountRepository.save(newAccount);
-            return AccountMapper.accountToDto(accountRepository.save(newAccount));
-        } else {
-            return new AccountDto();
+        if (!userRepository.existsById(newAccountDto.getIdUser())) {
+            throw new EntityNotFoundException(
+                    "No existe el usuario con id " + newAccountDto.getIdUser() + " en la base de datos");
         }
-    }
+        newAccountDto.setAlias(generateRandomAlias());
+        while (accountRepository.existsByAlias(newAccountDto.getAlias())) {
+            newAccountDto.setAlias(generateRandomAlias());
+        }
 
+        // Generamos un número de cuenta, si existe en la base de datos, seguimos
+        // generando hasta que sea único
+        newAccountDto.setAccountNumber(generateRandomDigits(10));
+
+        while (accountRepository.existsByAccountNumber(newAccountDto.getAccountNumber())) {
+            newAccountDto.setAccountNumber(generateRandomDigits(10));
+        }
+
+        // Generamos un CBU aleatorio incluyendo el numero de cuenta generado
+        newAccountDto.setCbu(
+                "23650" + generateRandomDigits(15) + newAccountDto.getAccountNumber() + generateRandomDigits(1));
+
+        newAccountDto.setIdAccount(0L);
+        newAccountDto.setCreated_account(LocalDateTime.now());
+        newAccountDto.setUpdated_account(LocalDateTime.now());
+
+        Account newAccount = AccountMapper.dtoToAccount(newAccountDto);
+        newAccount.setUser(userRepository.findById(newAccountDto.getIdUser()).get());
+        accountRepository.save(newAccount);
+        return AccountMapper.accountToDto(accountRepository.save(newAccount));
+    }
 
     public AccountDto inactiveAccount(Long id, AccountDto dto) {
         if (accountRepository.existsById(id)) {
@@ -105,7 +109,6 @@ public class AccountService {
         }
     }
 
-
     public AccountDto updateAccount(Long id, AccountDto dto) {
         if (accountRepository.existsById(id)) {
             Account acc = accountRepository.findById(id).get();
@@ -133,7 +136,6 @@ public class AccountService {
         }
     }
 
-
     public String deleteAccount(Long id) {
         if (accountRepository.existsById(id)) {
             accountRepository.deleteById(id);
@@ -152,11 +154,11 @@ public class AccountService {
     }
 
     public String generateRandomAlias() {
-        String[] words = {"manzana", "gato", "sol", "casa", "rojo", "agua", "luz", "tierra", "mar", "hoja",
+        String[] words = { "manzana", "gato", "sol", "casa", "rojo", "agua", "luz", "tierra", "mar", "hoja",
                 "perro", "azul", "noche", "flor", "nieve", "nube", "viento", "planta", "libro", "cielo",
                 "guitarra", "café", "montaña", "ciudad", "pájaro", "diente", "fruta", "delfín", "luna", "puente",
                 "río", "ojo", "estrella", "naranja", "piedra", "camino", "ventana", "música", "cuerpo", "playa",
-                "árbol", "corazón", "caracol", "tren", "elefante", "nube", "lápiz", "pintura", "camisa", "silla"};
+                "árbol", "corazón", "caracol", "tren", "elefante", "nube", "lápiz", "pintura", "camisa", "silla" };
         Random random = new Random();
 
         // Elegir tres palabras aleatorias
@@ -179,6 +181,5 @@ public class AccountService {
 
         return randomDigits;
     }
-
 
 }

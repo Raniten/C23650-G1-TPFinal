@@ -50,17 +50,18 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(accountService.deleteAccount(id));
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAlias(@PathVariable String id, @RequestBody Map<String, String> body) {
         String alias = body.get("alias");
         return ResponseEntity.ok().body(accountService.updateAlias(id, alias));
     }
 
-    /*@PutMapping(value = "/{id}")
-    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto account) {
-        return ResponseEntity.status(HttpStatus.OK).body(accountService.updateAccount(id, account));
-    }*/
+    // @PutMapping(value = "/{id}")
+    // public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id,
+    // @RequestBody AccountDto account) {
+    // return
+    // ResponseEntity.status(HttpStatus.OK).body(accountService.updateAccount(id,
+    // account));
+    // }
 
 }
-

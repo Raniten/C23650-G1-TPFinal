@@ -18,6 +18,12 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(400).body(errorResponse);
   }
 
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
+    ErrorResponse errorResponse = new ErrorResponse("Entity not found", e.getMessage());
+    return ResponseEntity.status(404).body(errorResponse);
+  }
+
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
     ErrorResponse errorResponse = new ErrorResponse("Illegal argument", e.getMessage());
