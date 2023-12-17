@@ -31,7 +31,7 @@ public class TransferController {
 
     //OBTENER UNA SOLA trasnferencia por su ID (GET)
     @GetMapping(value="/{id}")
-    public ResponseEntity<Transfer> getTransferById(@PathVariable Long id) {
+    public ResponseEntity<?> getTransferById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(transferService.getTransferById(id));
     }
 
@@ -44,7 +44,7 @@ public class TransferController {
 
     //CREAR UNA SOLA transferencia (POST)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Transfer> createTransfer(@RequestBody TransferDto newTransfer) {
+    public ResponseEntity<?> createTransfer(@RequestBody TransferDto newTransfer) {
 
         return ResponseEntity.status(HttpStatus.OK).body(transferService.createTransfer(newTransfer));
     }
