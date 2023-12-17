@@ -4,16 +4,13 @@ import com.cac.C23650G1.entities.Account;
 import com.cac.C23650G1.entities.Transfer;
 import com.cac.C23650G1.entities.dtos.TransferDto;
 import com.cac.C23650G1.entities.enums.AccountType;
-import com.cac.C23650G1.mappers.UserMapper;
 import com.cac.C23650G1.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,8 +29,8 @@ public class TransferService {
 
     //Obtener una lista de todas las transferencias
     public List<Transfer> getTransfers(){
-        List <Transfer> transfers = transferRepository.findAll();
-        return transfers;
+        return transferRepository.findAll();
+
     }
 
     //Obtener una sola transferencia por su ID
@@ -56,7 +53,7 @@ public class TransferService {
     //Crear una sola transferencia
     public ResponseEntity<?> createTransfer (TransferDto newTransfer) {
         Transfer transfer = new Transfer();
-        String mensajeError = "";
+        String errorMessage;
 
         if(isAccountExists(newTransfer.getIdAccountSender()) && isAccountExists(newTransfer.getIdAccountRecipient())) { //Validamos que existan las dos cuentas
             if(checkAccountCompatibility(newTransfer.getIdAccountSender(), newTransfer.getIdAccountRecipient())) { //Verificamos que los tipos de cuenta sean compatibles
@@ -79,16 +76,16 @@ public class TransferService {
 
                     return ResponseEntity.ok(transfer);
                 } else {
-                    mensajeError = "La cuenta emisora no tiene los fondos suficientes";
+                    errorMessage = "La cuenta emisora no tiene los fondos suficientes";
                 }
             } else {
-                mensajeError = "El tipo de cuenta emisora y el tipo de cuenta receptora no son compatibles";
+                errorMessage = "El tipo de cuenta emisora y el tipo de cuenta receptora no son compatibles";
             }
         }
         else {
-            mensajeError = "Una de las cuentas (o las dos) no existen";
+            errorMessage = "Una de las cuentas (o las dos) no existen";
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensajeError);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     public boolean isAccountExists(Long idAccount) {
